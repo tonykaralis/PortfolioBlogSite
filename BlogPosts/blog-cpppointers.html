@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<!--[if lt IE 9 ]><html class="no-js oldie" lang="en"> <![endif]-->
+<!--[if IE 9 ]><html class="no-js oldie ie9" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+
+    <!--- basic page needs
+    ================================================== -->
+    <meta charset="utf-8">
+    <title>Crash Course on pointers in C++.</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- mobile specific metas
+    ================================================== -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSS
+    ================================================== -->
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/vendor.css">
+    <link rel="stylesheet" href="../css/main.css">
+
+    <!-- script
+    ================================================== -->
+    <script src="../js/modernizr.js"></script>
+    <script src="../js/pace.min.js"></script>
+
+    <!-- favicons
+    ================================================== -->
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+
+</head>
+
+
+<body id="top">
+
+    <!-- header
+    ================================================== -->
+    <header class="s-header">
+
+        <div class="header-logo">
+            <a class="site-logo" href="../index.html"><img src="../images/logo.png" alt="Homepage"></a>
+        </div>
+
+        <nav class="header-nav-wrap">
+            <ul class="header-nav">
+                <li><a href="../index.html#home" title="home">Home</a></li>
+                <li><a href="../index.html#about" title="about">About</a></li>
+                <li><a href="../index.html#works" title="works">Works</a></li>
+                <li class="current"><a href="../blog.html" title="blog">Blog</a></li>
+                <li><a href="../index.html#contact" title="contact">Contact</a></li>
+            </ul>
+        </nav>
+
+        <a class="header-menu-toggle" href="#0"><span>Menu</span></a>
+
+    </header> <!-- end s-header -->
+
+
+    <article class="blog-single">
+
+        <!-- page header/blog image
+        ================================================== -->
+        <div class="page-header page-header--single page-hero" style="background-image:url(../images/blog/AsyncAwaitHeader.jpg)">
+
+            <div class="row page-header__content narrow">
+                <article class="col-full">
+                    <div class="page-header__info">
+                        <div class="page-header__cat">
+                          <p>Programming, C++</p>
+                        </div>
+                    </div>
+                    <h1 class="page-header__title">
+                        <a href="blog-asyncawait.html" title="">
+                            Crash course on pointers in C++.
+                        </a>
+                    </h1>
+                    <ul class="page-header__meta">
+                        <li class="date">March 20, 2017</li>
+                        <li class="author">
+                            By
+                            <span>Tony Karalis</span>
+                        </li>
+                    </ul>
+
+                </article>
+            </div>
+
+        </div> <!-- end page-header -->
+
+        <div class="row blog-content">
+            <div class="col-full blog-content__main">
+
+                <p>
+                  If you are reading this then you must be looking
+                  for a simple explanation on C++ pointers. Spoiler alert, it is a tricky concept to grasp however it looks harder than it is.
+                </p>
+
+                <p>Lets take a look at a very simple example:</p>
+
+<pre><code>
+  #include <iostream>
+
+    using namespace std;
+
+    int main()
+    {
+      int* i;
+
+      *i = 10;
+
+      cout << *1;
+
+      return 0;
+    }
+</code></pre>
+
+<p>“pointer = location in memory” Remember this and you will be fine.</p>
+
+<p>Back to line 7, we declare a pointer using the asterisk* . In order to access the data the pointer points to we need to use the asterisk* again.
+  This means that if we
+  need to change the value or read the data from the memory location pointed to by the pointer we simply need to dereference the pointer using the asterisk.</p>
+
+<p>A quick recap:</p>
+<ul>
+  <li>-line 7 we use the asterisk to declare the pointer</li>
+  <li>-line 9 we use the asterisk to dereference the pointer and assign a value</li>
+  <li>-line 11 we use the asterisk to dereference the pointer to obtain the value it points to.</li>
+</ul>
+
+<p>Now some of you may be thinking “but surely standard data types must have an address in
+  memory as well?” and the answer to that is yes they do. We can access the location of a variable using the “&” operator.
+  Consider the following code:</p>
+<pre><code>
+1  #include
+2  using namespace std;
+3
+4  int main()
+5  {
+6    int x = 10;
+7
+8    int* ptr;
+9
+10    ptr = &x;
+11
+12    cout << x << endl;
+13    cout << *ptr << endl;
+14
+15    return 0;
+16  }
+</code></pre>
+
+<p>Line 6: declare variable of type int</p>
+<p>Line 8: declare pointer that points to memory location with data type int</p>
+<p>Line 10: we assign ptr with the address of x using the & operator. (careful here we are NOT assigning the value of x but rather the address of x)</p>
+  <p>Note: Be careful when applying this method as pointing to the address of a variable that has gone out of scope will lead to your program not running
+    as expected. If a variable goes out of scope its memory address will still have a value stored there,
+    thus your program may seem to operate OK until that memory address is used by something else in which case the value stored there will be overwritten.</p>
+  <p>There you have it, pointers put simply.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <p class="blog-content__tags">
+                    <span>Post Tags</span>
+
+                    <span class="blog-content__tag-list">
+                        <a href="#0">C++</a>
+                        <a href="#0">Memory</a>
+                        <a href="#0">New</a>
+                        <a href="#0">Delete</a>
+                        <a href="#0">Programming</a>
+                    </span>
+
+                </p>
+
+                <div class="blog-content__pagenav">
+                    <div class="blog-content__nav">
+                      <div class="blog-content__prev">
+                          <a href="blog-cppmemory.html" rel="prev">
+                              <span>Previous Post</span>
+                              Memory management in C++.
+                          </a>
+                      </div>
+                        <!--<div class="blog-content__next">
+                            <a href="#blog-designpatterns.html" rel="next">
+                                <span>Next Post</span>
+                                Using Design Patterns in your code.
+                            </a>
+                        </div>-->
+                    </div>
+
+                    <div class="blog-content__all">
+                        <a href="../blog.html" class="btn btn--primary">
+                            View All Posts
+                        </a>
+                    </div>
+                </div>
+
+            </div><!-- end blog-content__main -->
+        </div> <!-- end blog-content -->
+
+    </article>
+
+    <!-- footer
+    ================================================== -->
+    <footer>
+            <div class="row">
+                <div class="col-full">
+
+                    <div class="footer-logo">
+                        <a class="footer-site-logo" href="#0"><img src="images/logo.png" alt="Homepage"></a>
+                    </div>
+
+                    <ul class="footer-social">
+                        <li><a href="#https://github.com/tonykaralis">
+                            <i class="im im-github" aria-hidden="true"></i>
+                            <span>GitHub</span>
+                        </a></li>
+                        <li><a href="#https://www.linkedin.com/in/tony-karalis-dev">
+                            <i class="im im-linkedin" aria-hidden="true"></i>
+                            <span>LinkedIn</span>
+                        </a></li>
+                    </ul>
+
+                </div>
+            </div>
+
+            <div class="row footer-bottom">
+
+                <div class="col-twelve">
+                    <div class="copyright">
+                        <span>© Copyright Tony Karalis 2018</span>
+                    </div>
+
+                    <div class="go-top">
+                    <a class="smoothscroll" title="Back to Top" href="#top"><i class="im im-arrow-up" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+
+            </div> <!-- end footer-bottom -->
+
+        </footer> <!-- end footer -->
+
+
+        <div id="preloader">
+            <div id="loader"></div>
+        </div>
+
+
+        <!-- Java Script
+        ================================================== -->
+        <script src="../js/jquery-3.2.1.min.js"></script>
+        <script src="../js/plugins.js"></script>
+        <script src="../js/main.js"></script>
+
+</body>
+
+</html>

@@ -96,58 +96,236 @@
         <div class="row blog-content">
             <div class="col-full blog-content__main">
 
-                <p class="lead">Text to come
-                </p>
+                <p class="lead">Memory Management in C++ is not the monster you think it is!</p>
 
                 <p>
-                  Article soon to come.
+                  The buzz words I keep hearing these days are mainly Java, C# and Objective-C. It seems that everyone’s focus is set on the above
+                   mentioned and we seem to be forgetting about our good old C++. There are a large number of developers and programmers who will
+                   fight for hours arguing about which language is better, more popular or the latest comment I’ve been reading “All application
+                   development is in ‘my’ language”. This really cracks me up and reading those discussions can make one laugh for hours. There is no ‘one
+                   size fits all’ language in my opinion.
                 </p>
 
-                <p>
-
+                <p>Now just to clear things up, I’m not here to promote any language over another and the answer to your question is yes I do love C++. However,
+                  this article is here to inform any undergrads or new coders to be, who are looking for some guidance while starting out their C++ journey.
                 </p>
 
-                <h3>What does Async do?</h3>
+                <p>The C++ learning curve can be steep but in my opinion it is well worth it. Those who have worked with the language long enough know the various
+                  difficulties of the language and its drawbacks. I will discuss the most common
+                  one I hear “memory management is hard”. Now I am going to have to agree with this one, it is hard indeed but only if you are  doing it wrong.</p>
 
-                <p> Answer goes here.</p>
+                <p> Firstly, I need to explain the stack and the heap for those who have not heard of them before. Think of the stack as an organized tower of variables,
+                  one on top of the other. When a variable goes out of scope it is removed from the stack.
+                  The space that variable took up is known as stack memory. All objects created on the stack are going to be destroyed at the end of the local scope.</p>
 
-                <blockquote><p>Include blockquote from microsoft</p></blockquote>
-
-                <p></p>
-
-                <h3>What does Await do?</h3>
-
-                <p> Description of code goes here.
-
+                <p>Here’s some code to help you understand:</p>
 <pre><code>
+  #include <iostream>
+  using namespace std;
+  int main()
+  {
+    int  a; //created on the stack
+    a = 10;
+    if( a < 20 )
+    {
+      int b;  //created on the stack
+      int c;  //created ont the stack
+
+      b = 5;
+      c = 6;
+      a = b + c;
+    } //here b and c go out of scope, they are removed from the stack
+
+    cout << c;  //output c to the screen
+    return 0; /application comes to an end and a goes out of scope
+  }
+</code></pre>
+
+
+
+                <p>This piece of code adds variable a to the stack, a is initialized and then
+                  depending on a certain condition a new block of code is entered. In this new block of code we see that
+                  b and c are then added to the stack. Both variables are initialized and a simple operation is performed(irrelevant to the explanation).
+                  Then the program leaves that block of code on line 20, at this point the stack is aware that variable b and c are going out of scope and
+                  thus removes them from the stack. A simple output statement follows which will produce an error since c is out of scope and finally our
+                  program execution comes to an end and the last variable a is removed from the stack.</p>
+
+                <p>As we can see from the example, the stack is quite handy as the program will handle the removal
+                  of all stack variables for you. Always use the stack unless you have an extremely good reason not to.</p>
+
+                <p> Pretty straight forward. Lets move on to the heap now.</p>
+
+                <p>For all coders to be don’t let the word heap frighten you, it is nothing to be afraid of unless you use it incorrectly.
+                  Think of the heap as a big bowl of variables where there is no order and organization like that of the stack, it is just one big pile of memory.
+                  The plus side is we have loads of it available to us, usually as much as is available on your device. Now this is where things get interesting.
+                  Whenever we speak about manual memory management in C++ the heap is what we are talking about.</p>
+
+                  <p>In order to create a variable on the heap and then manually destroy it, one needs to use the “new” and “delete” operators.This part gets a bit tricky
+                    to understand if you have not heard of or grasped the concept of pointers. If you need a quick explanation on pointers check out my post <a href="blog-cpppointers">Crash
+                    course on C++ pointers.</a></p>
+
+                    <p>Here is an extremely simple example:</p>
+  <pre><code>
+1      #include iostream
+2
+3      using namespace std;
+4
+5      void addFive(int* number)
+6      {
+7        *number += 5;
+8      }
+9
+10      int main()
+11     {
+12      int* i = new int();
+13
+14      *i = 1;
+15
+16      addFive(i);
+17
+18      cout << *i;
+19
+20      delete i;
+21
+22      return 0;
+23      }
+  </code></pre>
+
+  <p>Right, lets get started. We can see from line 8 that we are creating a pointer i that actually points to a type int. This is what is a bit tricky to
+    understand.
+    A pointer is not the same type that it points to. A pointer is merely a location in memory that can be referenced by its address.</p>
+
+  <p> Firstly, I need to explain the stack and the heap for those who have not heard of them before. Think of the stack as an organized tower of variables,
+    one on top of the other. When a variable goes out of scope it is removed from the stack.
+    The space that variable took up is known as stack memory. All objects created on the stack are going to be destroyed at the end of the local scope.</p>
+
+  <p>Here’s some code to help you understand:</p>
+<pre><code>
+#include <iostream>
+using namespace std;
+int main()
 {
-  test code goes here
+int  a; //created on the stack
+a = 10;
+if( a < 20 )
+{
+int b;  //created on the stack
+int c;  //created ont the stack
+
+b = 5;
+c = 6;
+a = b + c;
+} //here b and c go out of scope, they are removed from the stack
+
+cout << c;  //output c to the screen
+return 0; /application comes to an end and a goes out of scope
 }
 </code></pre>
 
-                <p>Sum up the main points</p>
 
-                <ul>
-                    <li>Point 1
-                        <ul>
-                            <li>break down 1</li>
-                            <li>break down 2</li>
-                            <li>break down 3</li>
-                        </ul>
-                    </li>
-                    <li>Point 2</li>
-                    <li>Point 3</li>
-                </ul>
 
-                <p>Finish off the article here.</p>
+  <p>This piece of code adds variable a to the stack, a is initialized and then
+    depending on a certain condition a new block of code is entered. In this new block of code we see that
+    b and c are then added to the stack. Both variables are initialized and a simple operation is performed(irrelevant to the explanation).
+    Then the program leaves that block of code on line 20, at this point the stack is aware that variable b and c are going out of scope and
+    thus removes them from the stack. A simple output statement follows which will produce an error since c is out of scope and finally our
+    program execution comes to an end and the last variable a is removed from the stack.</p>
+
+  <p>As we can see from the example, the stack is quite handy as the program will handle the removal
+    of all stack variables for you. Always use the stack unless you have an extremely good reason not to.</p>
+
+  <p> Pretty straight forward. Lets move on to the heap now.</p>
+
+  <p>For all coders to be don’t let the word heap frighten you, it is nothing to be afraid of unless you use it incorrectly.
+    Think of the heap as a big bowl of variables where there is no order and organization like that of the stack, it is just one big pile of memory.
+    The plus side is we have loads of it available to us, usually as much as is available on your device. Now this is where things get interesting.
+    Whenever we speak about manual memory management in C++ the heap is what we are talking about.</p>
+
+    <p>In order to create a variable on the heap and then manually destroy it, one needs to use the “new” and “delete” operators.This part gets a bit tricky
+      to understand if you have not heard of or grasped the concept of pointers. If you need a quick explanation on pointers check out my post <a href="blog-cpppointers.html">Crash
+      course on C++ pointers.</a></p>
+
+      <p>Here is an extremely simple example:</p>
+<pre><code>
+1      #include <iostream>
+2
+3      using namespace std;
+4
+5      void addFive(int* number)
+6      {
+7        *number += 5;
+8      }
+9
+10      int main()
+11     {
+12      int* i = new int();
+13
+14      *i = 1;
+15
+16      addFive(i);
+17
+18      cout << *i;
+19
+20      delete i;
+21
+22      return 0;
+23      }
+</code></pre>
+
+  <ul>
+      <li>Line 5-8: we define a simple function that accepts a pointer to a type int and we add 5 to the value the pointer points to.</li>
+      <li>Line 12: we declare a pointer to type int on the heap using the “new” operator      </li>
+      <li>Line 14: we dereference the pointer and set the value it points to to be 1      </li>
+      <li>Line 16: we call the addFive function and pass the pointer as a parameter      </li>
+      <li>Line 18: we dereference the pointer for use in outputting the value it points to.      </li>
+      <li>Line 20: we use the delete operator to delete the pointer and release the allocated memory on the heap. (This is vital or else we will have a memory leak)</li>
+  </ul>
+
+  <p>The output of the above will be: 6.</p>
+
+  <p>Now you might think well what was the point of doing all of that? Why not just pass a variable of type int instead of creating pointers etc?</p>
+
+  <p>Well we see the advantages when handling larger data structures and custom types ie an array of 20 MB.</p>
+
+  <p>Firstly, we wouldn’t be able to create an array of that size on the stack, give it a try and note the error message.</p>
+  <p>Secondly, when passing a variable by value to another function, we are essentially creating a copy of that variable and using the copy in the function.
+    This means our program would have to copy a 20MB array to use it in a function. Using pointers we are not coying the array but rather passing the address
+    of that array, and if my memory serves me right the size of a memory address on a 64-bit machine is 8 bytes. Big difference between 8 bytes and 20MB.</p>
+  <p>Finally, all objects created on the heap (using “new”)  will not be destroyed unless we manually free the resources they have been allocated. This is
+    why we must call “delete” for every time we use “new”. That right there
+    is the major pitfall to pointers in C++. It may not seem clear in the above example, but imagine forgetting a single delete in 20000 lines of code.</p>
+  <p>Personally i would avoid using the new and delete operators as much as possible. It is dangerous and the fact is there is another solution. In fact there are 2.
+    The first solution involves using the QT Framework which I will discuss in another post. The second solution is the use of smart pointers.</p>
+    <p>These little guys are a life saver. A smart pointer is essentially a pointer-like class that wraps a raw C++ pointer in order to manage its
+      lifetime thus relieving us of the
+      duty of calling delete every time.</p>
+    <p>Here is a simple example demonstrating the use of the std::unique_ptr.</p>
+
+<pre><code>
+#include <iostream>
+#include <memory>
+
+using namespace std;
+
+int main()
+{
+unique_ptr<int> ptr1(new int(10));
+cout << *ptr1 << endl;
+return 0;
+}
+
+</code></pre>
+    <p>Don’t forget to include the header memory and tell your compiler to use ISO standard C++11 otherwise you will get a ton of errors.</p>
+    <p>Thats all for today. Happy coding.</p>
 
                 <p class="blog-content__tags">
                     <span>Post Tags</span>
 
                     <span class="blog-content__tag-list">
-                        <a href="#0">C#</a>
-                        <a href="#0">Async</a>
-                        <a href="#0">Await</a>
+                        <a href="#0">C++</a>
+                        <a href="#0">Pointers</a>
+                        <a href="#0">New</a>
+                        <a href="#0">Delete</a>
                         <a href="#0">Programming</a>
                     </span>
 
@@ -161,12 +339,12 @@
                               How Qt works.
                           </a>
                       </div>
-                        <!--<div class="blog-content__next">
-                            <a href="#blog-designpatterns.html" rel="next">
+                        <div class="blog-content__next">
+                            <a href="blog-cpppointers.html" rel="next">
                                 <span>Next Post</span>
-                                Using Design Patterns in your code.
+                              Crash course on pointers C++.
                             </a>
-                        </div>-->
+                        </div>
                     </div>
 
                     <div class="blog-content__all">

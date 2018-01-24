@@ -66,7 +66,7 @@
 
         <!-- page header/blog image
         ================================================== -->
-        <div class="page-header page-header--single page-hero" style="background-image:url(../images/blog/AsyncAwaitHeader.jpg)">
+        <div class="page-header page-header--single page-hero" style="background-image:url(../images/blog/howqtworks-hero.png)">
 
             <div class="row page-header__content narrow">
                 <article class="col-full">
@@ -96,50 +96,86 @@
         <div class="row blog-content">
             <div class="col-full blog-content__main">
 
-                <p class="lead">Text goes here.
+                <p class="lead">How does Qt Creator compile your program?</p>
+                <p class="lead">If it does it for us, then why do we even need to know how its done?</p>
+
+                <p>
+                  You might think these are silly questions but I believe that knowing what is going on under the hood will help you understand in depth
+                  what Qt is doing for you, what you need to do and help you troubleshoot various errors that may arise along the way saving you a lot of
+                  time in the long run.
                 </p>
 
                 <p>
-                  Article soon to come.
+                  For those of you who have worked with CodeBlocks take a moment to reflect on the process to create,
+                  compile and build a project using CodeBlocks. For those of you who haven’t ill tell you thats it is as straight forward as it gets.
                 </p>
 
-                <p>
-
+                <p>Now lets begin. Each Qt program needs a makefile.
+                  For those of you who don’t know what that is, a makefile is simply a special file that contains different shell commands that tell
+                  the system what commands need to be executed. Working with small projects, the makefiles are easy to write. Writing a makefile becomes a
+                  mission when moving to larger projects. So Qt has something called “qmake” that generates this file for us.
+                  This makefile is used to compile our program. Qt however also uses this makefile to store its meta-object extraction phase.
+                  All you need to know about this now is that Qt extends C++ by using meta-objects.
                 </p>
 
-                <h3>What does Async do?</h3>
-
-                <p> Answer goes here.</p>
-
-                <blockquote><p>Include blockquote from microsoft</p></blockquote>
-
-                <p></p>
-
-                <h3>What does Await do?</h3>
-
-                <p> Description of code goes here.
-
-<pre><code>
-{
-  test code goes here
-}
-</code></pre>
-
-                <p>Sum up the main points</p>
+                <h3>So here’s what happens when Qt compiles our program:</h3>
 
                 <ul>
-                    <li>Point 1
-                        <ul>
-                            <li>break down 1</li>
-                            <li>break down 2</li>
-                            <li>break down 3</li>
-                        </ul>
-                    </li>
-                    <li>Point 2</li>
-                    <li>Point 3</li>
+                    <li>A .pro file is generated that describes your project(header files, source files, libraries etc)      </li>
+                    <li>qmake generates a makefile</li>
+                    <li>the program is then built using make or nmake</li>
                 </ul>
 
-                <p>Finish off the article here.</p>
+                <p> So as we can see Qt is doing quite a bit in the background when we hit the build and run button.
+                  If we chose not to use Qt Creator we would then need to use the command line to perform all the above mentioned steps.</p>
+
+                <p>Now as we can see step 1 involves a .pro file. We need to go into more detail as to what actually goes into that file.
+                  You can think of that file as the “manager” of your program. Forget to include a simple header path you will have errors.</p>
+
+                <p>Below is the bare minimum that appears in a .pro when creating an empty Qt console application.</p>
+
+ <pre><code>
+ QT += core
+ QT -= gui
+ CONFIG += c++11
+ TARGET = Test1
+ CONFIG += console
+ CONFIG -= app_bundle
+ TEMPLATE = app
+ SOURCES += main.cpp
+ </code></pre>
+
+                <p> All the words on the left are variables. qmake reads this project file and looks for certain variables,
+                  the contents of these variables are used to generate the makefile. Let me explain some of the main variables you will most definitely be using.
+                </p>
+
+                <ul>
+                    <li>QT: This will hold Qt specific configuration options. If we want to create a console application we will add the line 1, for a GUI application
+                      we add line 2 from above, to incorporate SQL we should add QT += sql. Check QT docs for more about Qt specific config options</li>
+                    <li>TARGET: The name of the target project</li>
+                    <li>CONFIG: This is general project configuration options. Beginners don’t need to fiddle with that just yet.</li>
+                    <li>TEMPLATE : This is used to define whether we will be creating a library, app or plugin</li>
+                    <li>SOURCES: We use this to include our C++ source files</li>
+                    <li>HEADERS: These are used to add our C++ header files</li>
+                </ul>
+
+                <p>Those are the basics you will need to know about the project file.</p>
+
+                <p>Tip of note: Certain errors may occur mentioning undefined reference to vtable especially when we work with QMetaObject, QMetaProperty
+                  as well as the QOBJECT and Q_PROPERTY macros. This may happen due to the moc reading the old C++ source file containing the meta-object information
+                  for those classes or it simply has not created one yet. These errors on some occasions can be fixed by simply running qmake again. A good way to do
+                  this is to hit build->clean project ‘..’, then hit build->run qmake and then finally build and run your program again. This is not always the case,
+                   it is just a tip to hopefully save you debugging for 6 days and then burning your laptop when you give up.</p>
+
+                <p>Now I know you may be asking yourself what is moc?? Very good question. moc stands for meta object compiler. It is the program that handles
+                  Qt’s C++ extensions.
+                  What the moc does is read a C++ header file and checks to see if it contains the Q_OBJECT macro (this is used for signals & slots and dynamic
+                  properties just to name a few) and if so proceeds to generate a C++ source file that contains information about the meta-object code for those classes.
+                  This C++ source file must be compiled and linked with the implementation of the class. Your native build system will still be invoked(GNU make,
+                  MS nmake etc) which will  then call your native compiler(g++/gcc etc). moc in no way replaces that process but rather adds to it.</p>
+
+                <p>Hopefully this has shed some light on what goes on behind the scenes. You can now see that Qt does operate quite differently
+                  from CodeBlocks in several aspects. This should help you get up and running quicker.</p>
 
                 <p class="blog-content__tags">
                     <span>Post Tags</span>
